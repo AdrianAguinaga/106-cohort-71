@@ -12,11 +12,25 @@ function saveTask() {
   // 2. Create an Object using our Class (Model)
   const taskToSave = new Task(title, desc, color, date, status, budget);
   
-  // 3. Log it to verify
+  // 3.Send to the server
+$.ajax({
+    type: "post", // http verb: CREATE
+    url: API,
+    data: JSON.stringify(taskToSave),
+    contentType:"application/json",
+
+    success: function(created){
+        console.log(created);
+    },
+    error: function(fails){
+        console.log(fails);
+    }
+})
+
   console.log(taskToSave);
   
   // 4. (Coming up next) Display it on screen
-  displayTask(taskToSave);
+  
 }
 
 function displayTask(task){
@@ -61,6 +75,25 @@ function loadTasks(){
         }
     });
 }
+
+function update(){
+    $.ajax({
+        type : "PUT", // http verb: Update
+        url: "https://106api-b0bnggbsgnezbzcz.westus3-01.azurewebsites.net/api/tasks/1",
+        data: JSON.stringify({
+            title:"New message"
+        }),
+        contentType: "application/json",
+        success: function(response){
+            console.log(response);
+        },
+        error: function(failure){
+            console.log(failure);
+        }
+
+    })
+}
+
 
 function init(){
   console.log("App initialized");
